@@ -21,7 +21,7 @@ class ZMConfig
 
     public static function env($env = "")
     {
-        self::$env = $env;
+        return self::$env = $env;
     }
 
     public static function get($name, $key = null)
