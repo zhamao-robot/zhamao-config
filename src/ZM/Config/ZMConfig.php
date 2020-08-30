@@ -28,9 +28,14 @@ class ZMConfig
     {
         if (isset(self::$config[$name])) $r = self::$config[$name];
         else $r = self::loadConfig($name);
-        if($r === false) return false;
-        if($key !== null) return $r[$key] ?? null;
+        if ($r === false) return false;
+        if ($key !== null) return $r[$key] ?? null;
         else return $r;
+    }
+
+    public static function reload()
+    {
+        self::$config = [];
     }
 
     private static function loadConfig($name)
