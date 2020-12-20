@@ -14,18 +14,19 @@ class ZMConfig
 
     public static $last_error = "";
 
-    public static function setDirectory($path = ".")
-    {
+    public static function setDirectory($path = ".") {
         return self::$path = realpath($path);
     }
 
-    public static function env($env = "")
-    {
-        return self::$env = $env;
+    public static function setEnv($env = "") {
+        self::$env = $env;
     }
 
-    public static function get($name, $key = null)
-    {
+    public static function getEnv() {
+        return self::$env;
+    }
+
+    public static function get($name, $key = null) {
         if (isset(self::$config[$name])) $r = self::$config[$name];
         else $r = self::loadConfig($name);
         if ($r === false) return false;
@@ -33,13 +34,11 @@ class ZMConfig
         else return $r;
     }
 
-    public static function reload()
-    {
+    public static function reload() {
         self::$config = [];
     }
 
-    private static function loadConfig($name)
-    {
+    private static function loadConfig($name) {
         $ext = [".php", ".json"];
         $env = ["", ".development", ".staging", ".production"];
         foreach ($ext as $ext_name) {
@@ -64,8 +63,7 @@ class ZMConfig
         return false;
     }
 
-    private static function storeConfig($name, $string, $ext_name)
-    {
+    private static function storeConfig($name, $string, $ext_name) {
         switch ($ext_name) {
             case ".php":
                 $r = include_once $string;
@@ -76,6 +74,7 @@ class ZMConfig
                     return false;
                 }
             case ".json":
+                /** @noinspection PhpComposerExtensionStubsInspection */
                 $r = json_decode(file_get_contents($string), true);
                 if (is_array($r)) {
                     return self::$config[$name] = $r;
