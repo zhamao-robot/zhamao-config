@@ -38,6 +38,11 @@ class ZMConfig
         self::$config = [];
     }
 
+    public static function modify($name, $key, $value) {
+        if(!isset(self::$config[$name])) return;
+        self::$config[$name][$key] = $value;
+    }
+
     private static function loadConfig($name) {
         $ext = [".php", ".json"];
         $env = ["", ".development", ".staging", ".production"];
@@ -66,6 +71,7 @@ class ZMConfig
     private static function storeConfig($name, $string, $ext_name) {
         switch ($ext_name) {
             case ".php":
+                /** @noinspection PhpIncludeInspection */
                 $r = include_once $string;
                 if (is_array($r)) {
                     return self::$config[$name] = $r;
