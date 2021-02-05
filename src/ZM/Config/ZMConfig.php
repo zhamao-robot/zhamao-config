@@ -59,8 +59,10 @@ class ZMConfig
                 } elseif (file_exists(self::$path . "/" . $name . $ext_name)) {
                     return self::storeConfig($name, self::$path . "/" . $name . $ext_name, $ext_name);
                 } else {
-                    self::$last_error = "你已指定环境 '" . self::$env . "', 但是配置文件 " . $name . "." . self::$env . "(.php/.json) 不存在，请检查";
-                    return false;
+                    if ($ext_name == ".json") {
+                        self::$last_error = "你已指定环境 '" . self::$env . "', 但是配置文件 " . $name . "." . self::$env . "(.php/.json) 不存在，请检查";
+                        return false;
+                    }
                 }
             }
         }
