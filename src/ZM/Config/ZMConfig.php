@@ -15,7 +15,7 @@ class ZMConfig
     public static $last_error = "";
 
     public static function setDirectory($path = ".") {
-        return self::$path = realpath($path);
+        return self::$path = $path;
     }
 
     public static function setEnv($env = "") {
