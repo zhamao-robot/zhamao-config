@@ -30,7 +30,14 @@ class ZMConfig
         if (isset(self::$config[$name])) $r = self::$config[$name];
         else $r = self::loadConfig($name);
         if ($r === false) return false;
-        if ($key !== null) return $r[$key] ?? null;
+        if ($key !== null) {
+            $levels = explode('.', $key);
+            foreach ($levels as $v) {
+                $r = $r[$v] ?? null;
+                if ($r === null) return null;
+            }
+            return $r ?? null;
+        }
         else return $r;
     }
 
